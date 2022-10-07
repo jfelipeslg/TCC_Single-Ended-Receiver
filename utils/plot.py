@@ -6,12 +6,10 @@ from scipy.stats.kde import gaussian_kde
 from optic.metrics import signal_power
 
 
-def pconst(x, lim=False, R=1.5, title_const=0):
+def pconst(x, lim=False, R=1.5, title_const=False):
     """
     Plots signal constellations
-
     :param x: complex signals or list of complex signals
-
     """
     if type(x) == list:
         try:
@@ -41,8 +39,8 @@ def pconst(x, lim=False, R=1.5, title_const=0):
         # Create a Position index
         Position = range(1, nSubPts + 1)
 
-        fig = plt.figure() 
-
+        fig = plt.figure()
+        
         if type(x) == list:
             for k in range(nSubPts):
                 ax = fig.add_subplot(nRows, nCols, Position[k])
@@ -68,21 +66,25 @@ def pconst(x, lim=False, R=1.5, title_const=0):
                 if lim:
                     ax.set_xlim(-radius, radius)
                     ax.set_ylim(-radius, radius)
-                    
+        
+        if title_const:
+            plt.suptitle(title_const, fontsize=12, x=0.525, y=0.85)
         fig.tight_layout()
         
     elif nSubPts == 1:
         plt.figure()
         plt.plot(x.real, x.imag, ".")
+        if title_const:
+            plt.suptitle(title_const, fontsize=12, x=0.5, y=0.9)
         plt.axis("square")
         plt.grid()
 
         if lim:
             plt.xlim(-radius, radius)
             plt.ylim(-radius, radius)
+
     
-    if title_const == 'str':
-        plt.suptitle(title_const, fontsize=12, x=0.55, y=0.85)
+        
     plt.show()
     
     return None
